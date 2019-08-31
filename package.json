@@ -1,6 +1,6 @@
 {
   "name": "metalsmith-ffmetadata",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small lib for metalmsith, to read metadata in media files using ffmpeg et node-ffmetadata.",
   "main": "index.js",
   "repository": {
