@@ -1,9 +1,9 @@
 /* eslint-env node */
 
-const NodeID3 = require('node-id3');
 const minimatch = require('minimatch');
-const DEFAULT_PATTERN = '**/*.+(jpeg|jpg)';
+const DEFAULT_PATTERN = '**/*.+(mp3|ogg)';
 const ffmetadata = require("ffmetadata");
+const path = require("path");
 
 module.exports = function plugin(options) {
   return function(files, metalsmith, done){
@@ -21,11 +21,10 @@ module.exports = function plugin(options) {
       if (data.draft) delete files[file];
 
       try {
-        let tags = NodeID3.read(file)
-        NodeID3.read(file, function(err, tags) {
-          if (err) console.log(err);
-          else files[file][property] = tags;
-        })        
+        ffmetadata.read(path.join(metalsmith._source,file), function(err, data) {
+            if (err) console.error("Error reading metadata", err);
+            else files[file][property] = data;
+        });     
       } catch(err) {
 	      // got invalid data, handle error
       }
